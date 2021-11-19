@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'delete' post.id %}">Delete</a>
+<ul>
+    <li>{{post.name}}</li>
+    <li>{{post.description}}</li>
+    <li>{{post.created_date}}</li>
+    <li>
+        {% for hash in post.hashtag.all %}
+        {{hash}}
+        {% endfor %}
+    </li>
+    {% for image in post.post_image.all %}
+    <li><img src="{{image}}"></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
