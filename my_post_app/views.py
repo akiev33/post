@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from my_post_app.forms import PostForm
+from my_post_app.forms import PostForm, MyPostModelForm, ImageForm
 from my_post_app.models import Post
 
 
@@ -35,8 +35,6 @@ def create_post(request):
             model.objects.create(name=name, description=description)
             return redirect('post')
 
-
-
     return render(request, 'create_post.html', locals())
 
 
@@ -53,3 +51,26 @@ def new_create(request):
 
 
     return render(request, 'new_create.html', locals())
+
+
+def model_form_post(request, pk):
+    form = MyPostModelForm
+    post = get_object_or_404(Post, id=pk)
+    form = MyPostModelForm(request.POST or None, instance=post)
+    if form.is_valid():
+        form.save()
+        return redirect('post')
+    return render(request, 'model_form.html', locals())
+
+
+def create_image(request):
+    form = ImageForm
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('post')
+    return render(request, 'image.html', locals())
+
+
+
